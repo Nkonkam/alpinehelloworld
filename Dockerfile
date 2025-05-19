@@ -1,8 +1,8 @@
 # Grab the latest alpine image
 FROM alpine:latest
 
-# Install Python and pip
-RUN apk add --no-cache --update python3 py3-pip bash
+# Install Python, pip, and virtualenv
+RUN apk add --no-cache python3 py3-pip bash && python3 -m ensurepip && pip3 install --no-cache-dir virtualenv
 
 # Create a virtual environment
 RUN python3 -m venv /venv
@@ -23,4 +23,4 @@ RUN adduser -D myuser
 USER myuser
 
 # Run the application
-CMD gunicorn --bind 0.0.0.0:$PORT wsgi
+CMD gunicorn --bind 0.0.0.0:${PORT:-5000} wsgi
