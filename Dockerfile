@@ -20,7 +20,7 @@ COPY ./webapp /opt/webapp/
 WORKDIR /opt/webapp
 
 # Create a non-root user and switch to it
-RUN adduser -D myuser &&
+RUN adduser -D myuser
 #  \
 #     chown -R myuser:myuser /opt/webapp /venv
 USER myuser
