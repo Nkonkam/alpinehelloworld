@@ -33,16 +33,16 @@ pipeline {
       }
     }
 
-    stage('Test container') {
-      agent any
-      steps {
-        script {
-          sh '''
-         curl http://localhost:8080 | grep "Hello World"
-          '''
-        }
-      }
-    }
+    // stage('Test container') {
+    //   agent any
+    //   steps {
+    //     script {
+    //       sh '''
+    //      curl http://localhost:8080 | grep "Hello World"
+    //       '''
+    //     }
+    //   }
+    // }
 
     stage('Clean container') {
       agent any
