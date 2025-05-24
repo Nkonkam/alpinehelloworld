@@ -1,5 +1,5 @@
 # Use specific Alpine version for reproducibility
-FROM alpine:3.21
+FROM alpine:latest
 
 # Install dependencies and create virtualenv in a single layer
 RUN apk add --no-cache python3 py3-pip bash && \
