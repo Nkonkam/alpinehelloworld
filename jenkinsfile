@@ -19,7 +19,7 @@ pipeline {
       }
     }
 
-    stage('Run container based on builded  image') {
+    stage('Run container based on built image') {
       agent any
       steps {
         script {
@@ -31,98 +31,71 @@ pipeline {
       }
     }
 
-
-
-
     stage('Test container') {
-    
-
       agent any
-
-    
       steps {
         script {
           sh '''
-
-         curl  http://localhost:8080 | grep "Hello World"
-         
+         curl http://localhost:8080 | grep "Hello World"
           '''
         }
       }
     }
 
-    
     stage('Clean container') {
       agent any
       steps {
         script {
           sh '''
-
         docker stop ${IMAGE_NAME}
         docker rm ${IMAGE_NAME}
-
           '''
         }
       }
     }
 
-    
-    
-
-stage('Push image in staging and deploy it ') {
-
+    stage('Push image in staging and deploy it') {
       when {
         expression {
           BRANCH_NAME == 'origin/master'
         }
       }
       agent any
-
       environment {
         HEROKU_API_KEY = credentials('heroku_api_key')
       }
-
       steps {
         script {
           sh '''
-
         heroku container:login
         heroku create ${STAGING}  || echo "project already exists"
         heroku container:push web -a ${STAGING}
         heroku container:release web -a ${STAGING}
-         
           '''
         }
       }
-    }      
-  }
+    }
 
-
-  stage('Push image in production and deploy it ') {
-
+    stage('Push image in production and deploy it') { // Moved inside the stages block
       when {
         expression {
           BRANCH_NAME == 'origin/master'
         }
       }
       agent any
-
       environment {
         HEROKU_API_KEY = credentials('heroku_api_key')
       }
-
       steps {
         script {
           sh '''
-
         heroku container:login
         heroku create ${PRODUCTION}  || echo "project already exists"
         heroku container:push web -a ${PRODUCTION}
         heroku container:release web -a ${PRODUCTION}
-         
           '''
         }
       }
     }
+  }
 }
-
