@@ -52,7 +52,6 @@ pipeline {
     }
 
     
-    
     stage('Clean container') {
       agent any
       steps {
@@ -66,6 +65,9 @@ pipeline {
         }
       }
     }
+
+    
+    
 
 stage('Push image in staging and deploy it ') {
 
@@ -92,11 +94,11 @@ stage('Push image in staging and deploy it ') {
           '''
         }
       }
-    }
+    }      
+  }
 
 
-
-stage('Push image in production and deploy it ') {
+  stage('Push image in production and deploy it ') {
 
       when {
         expression {
@@ -122,10 +124,5 @@ stage('Push image in production and deploy it ') {
         }
       }
     }
-
-
-
-      
-  }
 }
 
